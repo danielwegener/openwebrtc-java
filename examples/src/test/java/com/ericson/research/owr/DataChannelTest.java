@@ -13,6 +13,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionService;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -70,6 +71,11 @@ public class DataChannelTest {
 
 
     private Future<DataChannelReadyState> readyStateArrived(DataChannel dc, final DataChannelReadyState waitForReadyState) {
+        if (dc.getReadyState() == waitForReadyState) {
+            final CompletableFuture<DataChannelReadyState> alreadyThere = new CompletableFuture<DataChannelReadyState>();
+            alreadyThere.complete(dc.getReadyState());
+            return alreadyThere;
+        }
         final CompletableFuture<DataChannelReadyState> ready = new CompletableFuture<DataChannelReadyState>();
         dc.addReadyStateChangeListener(new DataChannel.ReadyStateChangeListener() {
             public void onReadyStateChanged(DataChannelReadyState readyState) {
@@ -91,8 +97,7 @@ public class DataChannelTest {
     }
 
     @Test
-    public void dataChannelTalk() throws InterruptedException, ExecutionException {
-
+    public void dataChannelPrenegotiated() throws InterruptedException, ExecutionException {
 
         final short channelId = 1;
 
@@ -105,6 +110,46 @@ public class DataChannelTest {
         final Future<DataChannelReadyState> rightReady = readyStateArrived(right, DataChannelReadyState.OPEN);
 
         assertEquals(DataChannelReadyState.OPEN, leftReady.get());
+        assertEquals(DataChannelReadyState.OPEN, rightReady.get());
+
+        final Future<byte[]> dataOnRight = nextData(right);
+        left.sendBinary("hello WEBRTC in javaland!".getBytes());
+        assertArrayEquals(dataOnRight.get(), "hello WEBRTC in javaland!".getBytes());
+
+        final Future<byte[]> dataOnLeft = nextData(left);
+        right.sendBinary("EOT".getBytes());
+        assertArrayEquals(dataOnLeft.get(), "EOT".getBytes());
+
+        final Future<DataChannelReadyState> leftClosed = readyStateArrived(left, DataChannelReadyState.CLOSED);
+        final Future<DataChannelReadyState> rightClosed = readyStateArrived(right, DataChannelReadyState.CLOSED);
+        left.close();
+        right.close();
+        leftClosed.get();
+        rightClosed.get();
+
+    }
+
+    @Test
+    public void dataChannelNegotiate() throws InterruptedException, ExecutionException {
+
+        final short channelId = 2;
+
+        final CompletableFuture<DataChannel> rightFuture = new CompletableFuture<DataChannel>();
+        rightSession.addOnDataChannelRequestedListener(new DataSession.OnDataChannelRequestedListener() {
+            public void onDataChannelRequested(boolean ordered, int max_packet_livetime, int max_retransmits, String protocol, boolean negotiated, int id, String label) {
+                final DataChannel right = new DataChannel(ordered, max_packet_livetime, max_retransmits, protocol, negotiated, (short)id, label);
+                rightSession.addDataChannel(right);
+                rightFuture.complete(right);
+            }
+        });
+        final DataChannel left = new DataChannel(false, 5000, -1, "protoloto", false, channelId, "requested");
+        leftSession.addDataChannel(left);
+
+        final Future<DataChannelReadyState> leftReady = readyStateArrived(left, DataChannelReadyState.OPEN);
+        assertEquals(DataChannelReadyState.OPEN, leftReady.get());
+
+        final DataChannel right = rightFuture.get();
+        final Future<DataChannelReadyState> rightReady = readyStateArrived(right, DataChannelReadyState.OPEN);
         assertEquals(DataChannelReadyState.OPEN, rightReady.get());
 
         final Future<byte[]> dataOnRight = nextData(right);
