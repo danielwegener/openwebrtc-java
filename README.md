@@ -5,7 +5,7 @@
 
 ## How to build openwebrtc java bindings for linux
 
-This guide refers to the [Building OpenWebRTC guide](https://github.com/EricssonResearch/openwebrtc/wiki/Building-OpenWebRTC). Follow this guide but use the following cerbero git repo/branch:
+This guide refers to the [Building OpenWebRTC guide](https://github.com/EricssonResearch/openwebrtc/wiki/Building-OpenWebRTC). Follow that guide but use the following cerbero git repo/branch:
 
     git clone https://github.com/danielwegener/cerbero.git
     git checkout linux-java
