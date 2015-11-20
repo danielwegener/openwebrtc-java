@@ -16,7 +16,8 @@ RUN cd ~ && git clone https://github.com/danielwegener/cerbero.git && cd cerbero
 
 
 RUN cd ~/cerbero && ./cerbero-uninstalled -c config/linux.cbc fetch-package --full-reset --reset-rdeps openwebrtc
+RUN git config --global user.email "noone@noone.com" && git config --global user.name "An innocent docker container"
 RUN cd ~/cerbero && ./cerbero-uninstalled -c config/linux.cbc bootstrap
-#RUN cd ~/cerbero && ./cerbero-uninstalled -c config/linux.cbc package -f openwebrtc
+RUN cd ~/cerbero && ./cerbero-uninstalled -c config/linux.cbc package -f openwebrtc
 CMD /bin/bash
 
