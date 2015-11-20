@@ -34,6 +34,8 @@ The normal openwebrtc build only creates jar bindings for the android platform r
 
 This build methods enables the openwebrtc build to produce jni bindings and jar files for linux. The build tool _cerbero_ can somewhat be pushed to create these artifacts. However, I got there through try and error and maybe someone who knows what he is doing should take a look:
 
+**Disclaimer: I still have to double check, that there are no changes missing - Ill remove this disclaimer then**
+
 * https://github.com/danielwegener/cerbero/commit/45a02ae3c077234b5663092befcb32f36471ba8f
 * https://github.com/danielwegener/openwebrtc/commit/7b7a38836909e165d9c5f127baf0a2f29f99f826
 
