@@ -40,3 +40,7 @@ This build methods enables the openwebrtc build to produce jni bindings and jar 
 * https://github.com/danielwegener/openwebrtc/commit/7b7a38836909e165d9c5f127baf0a2f29f99f826
 
 Eventually I'd prefer that openwebrtc build can create a java-binding jar and platform specific native jars with all required native library dependencies bundled (depending on the current build target).
+
+## Dockerfile (Work in progress)
+
+This repo contains a `docker/Dockerfile` that builds the recent openwebrtc build from the mentioned repositories. You can build it with `➜ openwebrtc-java: docker build Dockerfile` (**warning:** this container becomes huge). The resulting container should have a working version in `/opt/openwebrtc-0.3/`.
