@@ -22,7 +22,6 @@ cd ~/cerbero \
 
 ```
 
-
 Afterwards you should have `/opt/openwebrtc-0.3/lib` that contains the folowing files:
 
 * `libopenwebrtc.so`
@@ -33,6 +32,8 @@ Afterwards you should have `/opt/openwebrtc-0.3/lib` that contains the folowing 
 Additionally you should have the jar files `openwebrtc-0.3.0.jar` and `openwebrtc_bridge-0.3.0.jar` in the (TBD/retest) directory.
 
 ## Run the tests
+
+> One weird thing you have todo before you can get started: Run `cd /opt/openwebrtc-0.3/lib && ln -s libopenwebrtc.so libopenwebrtc.so.4.so`
 
 Just run `mvn clean install` on the parent directory of this repo. It will install the bundled openwebrtc-java jar files into your local repository and run the tests.
 

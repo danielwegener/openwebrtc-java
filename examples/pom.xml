@@ -32,11 +32,15 @@
           <groupId>com.ericson.research.owr</groupId>
           <artifactId>openwebrtc</artifactId>
           <version>0.3.0</version>
+          <scope>system</scope>
+          <systemPath>/opt/openwebrtc-0.3/lib/jni/openwebrtc.jar</systemPath>
       </dependency>
       <dependency>
           <groupId>com.ericson.research.owr</groupId>
           <artifactId>openwebrtc_bridge</artifactId>
           <version>0.3.0</version>
+          <scope>system</scope>
+          <systemPath>/opt/openwebrtc-0.3/lib/jni/openwebrtc_bridge.jar</systemPath>
       </dependency>
 
   </dependencies>
