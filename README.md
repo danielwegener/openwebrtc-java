@@ -10,6 +10,7 @@ This guide refers to the [Building OpenWebRTC guide](https://github.com/Ericsson
     git clone https://github.com/danielwegener/cerbero.git
     git checkout linux-java
 
+You also need to set `JAVA_HOME` to point to an installed JDK.
 
 Afterwards you should have `/opt/openwebrtc-0.3/lib` that contains the folowing files:
 
@@ -44,3 +45,4 @@ Eventually I'd prefer that openwebrtc build can create a java-binding jar and pl
 ## Dockerfile (Work in progress)
 
 This repo contains a `docker/Dockerfile` that builds the recent openwebrtc build from the mentioned repositories. You can build it with `➜ openwebrtc-java: docker build Dockerfile` (**warning:** this container becomes huge). The resulting container should have a working version in `/opt/openwebrtc-0.3/`.
+****
