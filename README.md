@@ -5,12 +5,23 @@
 
 ## How to build openwebrtc java bindings for linux
 
-This guide refers to the [Building OpenWebRTC guide](https://github.com/EricssonResearch/openwebrtc/wiki/Building-OpenWebRTC). Follow that guide but use the following cerbero git repo/branch:
+This guide refers to the [Building OpenWebRTC guide](https://github.com/EricssonResearch/openwebrtc/wiki/Building-OpenWebRTC).
 
-    git clone https://github.com/danielwegener/cerbero.git
-    git checkout linux-java
+```sh
+sudo mkdir -p /opt/openwebrtc-0.3
+sudo chown -R $UID /opt/openwebrtc-0.3
+cd ~
+git clone https://github.com/danielwegener/cerbero.git
+git checkout linux-java
+export JAVAHOME=<PATH_TO_YOUR_JDK>
 
-You also need to set `JAVA_HOME` to point to an installed JDK.
+cd ~/cerbero \
+&& ./cerbero-uninstalled -c config/linux.cbc fetch-package --full-reset --reset-rdeps openwebrtc \
+&& ./cerbero-uninstalled -c config/linux.cbc bootstrap \
+&& ./cerbero-uninstalled -c config/linux.cbc package -f openwebrtc
+
+```
+
 
 Afterwards you should have `/opt/openwebrtc-0.3/lib` that contains the folowing files:
 
